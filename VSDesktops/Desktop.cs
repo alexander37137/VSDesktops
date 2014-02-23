@@ -13,13 +13,17 @@ namespace VSDesktops
     {
         private readonly DTE2 _appObject;
         private readonly Command _command;
+        private readonly CommandBarControl _control;
+        private readonly IEnumerable<CommandBarControl> _controls; 
 
         public Desktop(string name, string text, DTE2 appObject, AddIn addInInstance, CommandBar bar, Commands2 commands)
         {
             _appObject = appObject;
             var contextGUIDS = new object[] { };
             _command = commands.AddNamedCommand2(addInInstance, name, text, string.Empty, true, 0, ref contextGUIDS);
-            _command.AddControl(bar, bar.Controls.Count);
+            _command.AddControl(bar, bar.Controls.Count + 1);
+            _controls = bar.Controls.Cast<CommandBarControl>();
+            _control = _controls.Last();
         }
 
         public string CommandName
@@ -56,6 +60,16 @@ namespace VSDesktops
         {
             HideAll();
             Show(_windows);
+            InitButton();
+        }
+
+        public void InitButton()
+        {
+            foreach (var commandBarControl in _controls)
+            {
+                commandBarControl.Caption = commandBarControl.Caption.Replace("(A)", "");
+            }
+            _control.Caption += "(A)";
         }
 
         public void Save()

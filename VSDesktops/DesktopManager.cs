@@ -37,6 +37,7 @@ namespace VSDesktops
             }
             _currentDesktop = _desktops.First().Value;
             _currentDesktop.Save();
+            _currentDesktop.InitButton();
         }
 
         public bool HandleExec(string commandName)
