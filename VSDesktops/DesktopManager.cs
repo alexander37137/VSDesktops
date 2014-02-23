@@ -19,12 +19,7 @@ namespace VSDesktops
         private static DesktopManager _instance;
         public static DesktopManager Instance(DTE2 applicationObject)
         {
-            if (_instance == null)
-            {
-                _instance = new DesktopManager(applicationObject);
-            }
-            _instance.ApplicationObject = applicationObject;
-            return _instance;
+            return _instance ?? (_instance = new DesktopManager(applicationObject));
         }
 
         private const int DesktopCount = 3;
@@ -57,7 +52,7 @@ namespace VSDesktops
             return true;
         }
 
-        public DTE2 ApplicationObject
+        private DTE2 ApplicationObject
         {
             get;
             set;

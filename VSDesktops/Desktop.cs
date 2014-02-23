@@ -41,7 +41,7 @@ namespace VSDesktops
         private IEnumerable<Window> GetAll()
         {
             return _appObject.Windows.Cast<Window>()
-                .Where(w => w.Type == vsWindowType.vsWindowTypeDocument);
+                .Where(w => w.Type == vsWindowType.vsWindowTypeDocument && w.Visible);
         }
 
         private void Show(IEnumerable<Window> windows)
