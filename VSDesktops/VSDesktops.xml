@@ -8,9 +8,6 @@
             <summary>The object for implementing an Add-in.</summary>
             <seealso class='IDTExtensibility2' />
         </member>
-        <member name="M:VSDesktops.Connect.#ctor">
-            <summary>Implements the constructor for the Add-in object. Place your initialization code within this method.</summary>
-        </member>
         <member name="M:VSDesktops.Connect.OnConnection(System.Object,Extensibility.ext_ConnectMode,System.Object,System.Array@)">
             <summary>Implements the OnConnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being loaded.</summary>
             <param term='application'>Root object of the host application.</param>

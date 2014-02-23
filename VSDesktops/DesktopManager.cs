@@ -11,9 +11,20 @@ namespace VSDesktops
 {
     class DesktopManager
     {
-        public DesktopManager(DTE2 applicationObject)
+        private DesktopManager(DTE2 applicationObject)
         {
-            _applicationObject = applicationObject;
+            ApplicationObject = applicationObject;
+        }
+
+        private static DesktopManager _instance;
+        public static DesktopManager Instance(DTE2 applicationObject)
+        {
+            if (_instance == null)
+            {
+                _instance = new DesktopManager(applicationObject);
+            }
+            _instance.ApplicationObject = applicationObject;
+            return _instance;
         }
 
         private const int DesktopCount = 3;
@@ -26,10 +37,11 @@ namespace VSDesktops
             {
                 var commandName = string.Format("Desk{0}", i);
                 var commandText = string.Format("Desk {0}", i + 1);
-                var desktop = new Desktop(commandName, commandText, _applicationObject, addInInstance, bar, commands);
-                _desktops.Add(commandName, desktop);
+                var desktop = new Desktop(commandName, commandText, ApplicationObject, addInInstance, bar, commands);
+                _desktops.Add(desktop.CommandName, desktop);
             }
-
+            _currentDesktop = _desktops.First().Value;
+            _currentDesktop.Save();
         }
 
         public bool HandleExec(string commandName)
@@ -38,24 +50,20 @@ namespace VSDesktops
             {
                 return false;
             }
+            _currentDesktop.Save();
+            _currentDesktop = _desktops[commandName];
+            _currentDesktop.Restore();
 
             return true;
         }
 
+        public DTE2 ApplicationObject
+        {
+            get;
+            set;
+        }
 
-        //private void SwitchDesktop()
-        //{
-        //    var windows =
-        //        _applicationObject.Windows.Cast<Window>()
-        //            .Where(w => w.Type == vsWindowType.vsWindowTypeDocument);
-        //    foreach (var window in windows)
-        //    {
-        //        window.Visible = _isFirstDesktop;
-        //    }
-        //    _isFirstDesktop = !_isFirstDesktop;
-        //}
-
-        private readonly DTE2 _applicationObject;
+        private Desktop _currentDesktop;
 
     }
 }

@@ -8,15 +8,8 @@ namespace VSDesktops
 {
     /// <summary>The object for implementing an Add-in.</summary>
     /// <seealso class='IDTExtensibility2' />
-// ReSharper disable once UnusedMember.Global
     public class Connect : IDTExtensibility2, IDTCommandTarget
     {
-        /// <summary>Implements the constructor for the Add-in object. Place your initialization code within this method.</summary>
-        public Connect()
-        {
-            _manager = new DesktopManager(_applicationObject);
-        }
-
         /// <summary>Implements the OnConnection method of the IDTExtensibility2 interface. Receives notification that the Add-in is being loaded.</summary>
         /// <param term='application'>Root object of the host application.</param>
         /// <param term='connectMode'>Describes how the Add-in is being loaded.</param>
@@ -26,6 +19,7 @@ namespace VSDesktops
         {
             _applicationObject = (DTE2)application;
             _addInInstance = (AddIn)addInInst;
+            _manager = DesktopManager.Instance(_applicationObject);
             if (connectMode == ext_ConnectMode.ext_cm_UISetup)
             {
                 var commands = (Commands2)_applicationObject.Commands;
@@ -101,6 +95,6 @@ namespace VSDesktops
 
         private DTE2 _applicationObject;
         private AddIn _addInInstance;
-        private readonly DesktopManager _manager;
+        private DesktopManager _manager;
     }
 }
