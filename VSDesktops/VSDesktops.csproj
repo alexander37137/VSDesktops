@@ -57,6 +57,7 @@
     <Compile Include="Connect.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Desktop.cs" />
     <Compile Include="DesktopManager.cs" />
   </ItemGroup>
   <ItemGroup>

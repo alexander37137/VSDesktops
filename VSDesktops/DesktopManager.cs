@@ -17,26 +17,24 @@ namespace VSDesktops
         }
 
         private const int DesktopCount = 3;
-        private readonly IDictionary<string, Command> buttons = new Dictionary<string, Command>();
+        private readonly IDictionary<string, Desktop> _desktops = new Dictionary<string, Desktop>();
 
-        public void CreateButtons(CommandBars cmd, Commands2 commands, AddIn _addInInstance)
+        public void CreateButtons(CommandBars cmd, Commands2 commands, AddIn addInInstance)
         {
-            var contextGUIDS = new object[] { };
             var bar = cmd["Standard"];
             for (int i = 0; i < DesktopCount; i++)
             {
                 var commandName = string.Format("Desk{0}", i);
                 var commandText = string.Format("Desk {0}", i + 1);
-                var command = commands.AddNamedCommand2(_addInInstance, commandName, commandText, string.Empty, true, 0, ref contextGUIDS);
-                command.AddControl(bar, bar.Controls.Count);
-                buttons.Add(commandName, command);
+                var desktop = new Desktop(commandName, commandText, _applicationObject, addInInstance, bar, commands);
+                _desktops.Add(commandName, desktop);
             }
 
         }
 
         public bool HandleExec(string commandName)
         {
-            if (!buttons.ContainsKey(commandName))
+            if (!_desktops.ContainsKey(commandName))
             {
                 return false;
             }

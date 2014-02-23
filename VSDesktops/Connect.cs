@@ -8,6 +8,7 @@ namespace VSDesktops
 {
     /// <summary>The object for implementing an Add-in.</summary>
     /// <seealso class='IDTExtensibility2' />
+// ReSharper disable once UnusedMember.Global
     public class Connect : IDTExtensibility2, IDTCommandTarget
     {
         /// <summary>Implements the constructor for the Add-in object. Place your initialization code within this method.</summary>
